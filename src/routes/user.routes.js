@@ -2,7 +2,6 @@ import { Router } from "express";
 import { loginUser, logoutUser, registerUser, refreshAccessToken, changeCurrentUserPassword, getCurrentUser, updateAccountDetails, updateUserAvatar, updateUserCoverImage, getUserChannelProfile, getWatchHistory } from "../controllers/user.controller.js";
 import {upload} from "../middlewares/multer.middleware.js"
 import { verifyJWT } from "../middlewares/auth.middleware.js";
-import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 const router = Router()
 
@@ -29,7 +28,7 @@ router.route("/change-password").post(verifyJWT,changeCurrentUserPassword)
 router.route("/current-user").get(verifyJWT,getCurrentUser)
 router.route("/update-account-details").patch(verifyJWT,updateAccountDetails)
 router.route("/update-avatar").patch(verifyJWT,upload.single("avatar"),updateUserAvatar)
-router.route("/cover-image").patch(verifyJWT,upload.single("/coverImage"),updateUserCoverImage)
+router.route("/cover-image").patch(verifyJWT,upload.single("coverImage"),updateUserCoverImage)
 router.route("/c/:username").get(verifyJWT,getUserChannelProfile)
 router.route("/history").get(verifyJWT,getWatchHistory)
 
