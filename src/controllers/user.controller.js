@@ -39,10 +39,16 @@ const registerUser = asyncHandler( async (req,res) => {
     // return response
 
 
+    if(!req.body || Object.keys(req.body).length === 0){
+        throw new ApiError(400, "Fields are required to register")
+    }
+
     const {fullname , email , username , password} = req.body
     // console.log("email :", email);
+    // console.log(req.body);
 
-    
+
+   
     
     // if(fullname == ""){
     //     throw new ApiError(400, "fullname is required")
@@ -122,7 +128,6 @@ const loginUser = asyncHandler(async (req,res) =>{
     // access and refresh token 
     // send the cookie and response
 
-    console.log("HELLO MY DARLING",req.body);
     const {username,email,password} = req.body
 
     
@@ -243,7 +248,7 @@ const refreshAccessToken = asyncHandler (async(req,res) => {
 })
 
 
-const changeCurrentUserPassword =asyncHandler( async(req,res) => {
+const changeCurrentUserPassword = asyncHandler( async(req,res) => {
     
     const {oldPassword ,newPassword} = req.body
     const user = await User.findById(req.user?._id) 
@@ -260,8 +265,6 @@ const changeCurrentUserPassword =asyncHandler( async(req,res) => {
     return res
     .status(200)
     .json(new ApiResponse (200 , {} ,"Password Changed Successfully"))
-
-
 
 })
 
@@ -296,9 +299,6 @@ const updateAccountDetails = asyncHandler(async(req,res) =>{
     return res
     .status(200)
     .json(new ApiResponse( 200 ,user, "Account details updated successfully"))
-
-
-
 })
 
 
